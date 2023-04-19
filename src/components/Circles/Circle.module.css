@@ -1,0 +1,14 @@
+.circle {
+  border: none;
+  box-shadow: none;
+  font-size: inherit;
+  font-family: inherit;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  background-color: #21b6d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
