@@ -7,8 +7,8 @@ class App extends Component {
     startGame: true,
     score: 0,
     circles: [1, 2, 3, 4],
-    activeNumber: 1,
-    buttons: []
+    activeNumber: Math.floor(Math.random() * 4) + 1,
+    clicked: false,
   }
 
   // Initialize state to default values
@@ -17,7 +17,7 @@ class App extends Component {
       startGame: true,
       score: 0,
       circles: [1, 2, 3, 4],
-      activeNumber: 1
+      activeNumber: Math.floor(Math.random() * 4) + 1
     });
   }
 
@@ -38,20 +38,16 @@ class App extends Component {
 
   handleStartGame = () => {
     if(this.state.startGame) {
-      console.log(this.state.startGame)
       this.interval = setInterval(this.randomNumber, 4000);
     }
   }
 
   handleCircle = (circle) => {
     if(this.state.activeNumber === circle) {
-      this.setState({score: this.state.score + 1})
-      console.log("button was clicked", circle)
-      console.log("active number is", this.state.activeNumber)
+      {!this.state.clicked && this.setState({score: this.state.score + 1, clicked: true})}
     }
     else {
-      console.log("button was clicked", circle)
-      console.log("they are different")
+      this.handleStopGame();
     }
   }
 
@@ -70,21 +66,7 @@ class App extends Component {
   };
 
   changingActiveCircle = () => {
-    const buttons = this.state.circles.map(id => ({ id, className: 'disabled' }));
-    /*this.setState({buttons: buttons});
-    let active = this.state.activeNumber; 
-    console.log(buttons); */
-    const buttonss = this.state.buttons.map(button => {
-      if (button.id === this.state.activeNumber) {
-        return { ...button, className: 'able' };
-      } else {
-        return { ...button, className: 'disabled' };
-      }
-    });
-    console.log(buttonss);
-  
-    this.setState({ buttons: buttons}, () => {
-      console.log(this.state.buttons, "buttons")});
+    this.setState({clicked: false});
   }
 
   handleStopGame = () => {
@@ -94,14 +76,19 @@ class App extends Component {
   }
   
   render() {
+    //console.log(this.state.startGame)
     return (
       <div className={classes.gamePage}>
         <div className={classes.gameCard}>
           <h1 className={classes.gameName}>Speed Game</h1>
           <h2>Score {this.state.score}</h2>
             <div className={classes.buttonsCircle}>
-              {this.state.circles.map((circle) => <Circle handleCircle={() => this.handleCircle(circle)} key={circle}/>)}
-
+              {this.state.circles.map((circle) => <Circle 
+                key={circle}
+                start={this.state.startGame}
+                active={circle === this.state.activeNumber} 
+                handleCircle={() => this.handleCircle(circle)} 
+              />)}
             </div>
             {
               (this.state.startGame) ? <button className={classes.button_start} onClick={this.handleStartButton}>Start</button>

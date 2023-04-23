@@ -12,3 +12,12 @@
   align-items: center;
   margin: 2rem;
 }
+
+.activeCircle {
+  background: url(../../images/bug.png) no-repeat center center/cover;
+  color: aqua;
+}
+
+.endGame {
+  pointer-events: none;
+}
