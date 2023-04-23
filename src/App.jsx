@@ -7,7 +7,8 @@ class App extends Component {
     startGame: true,
     score: 0,
     circles: [1, 2, 3, 4],
-    activeNumber: 1
+    activeNumber: 1,
+    buttons: []
   }
 
   // Initialize state to default values
@@ -65,8 +66,26 @@ class App extends Component {
     this.setState({activeNumber: nextActive}, () => {
       console.log(this.state.activeNumber, "active");
     });
-    console.log(nextActive, 'nextActive')
+    this.changingActiveCircle();
   };
+
+  changingActiveCircle = () => {
+    const buttons = this.state.circles.map(id => ({ id, className: 'disabled' }));
+    /*this.setState({buttons: buttons});
+    let active = this.state.activeNumber; 
+    console.log(buttons); */
+    const buttonss = this.state.buttons.map(button => {
+      if (button.id === this.state.activeNumber) {
+        return { ...button, className: 'able' };
+      } else {
+        return { ...button, className: 'disabled' };
+      }
+    });
+    console.log(buttonss);
+  
+    this.setState({ buttons: buttons}, () => {
+      console.log(this.state.buttons, "buttons")});
+  }
 
   handleStopGame = () => {
     console.log('game over');
