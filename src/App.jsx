@@ -9,6 +9,7 @@ class App extends Component {
     circles: [1, 2, 3, 4],
     activeNumber: Math.floor(Math.random() * 4) + 1,
     clicked: false,
+    wrongCircle: null,
   }
 
   // Initialize state to default values
@@ -17,7 +18,9 @@ class App extends Component {
       startGame: true,
       score: 0,
       circles: [1, 2, 3, 4],
-      activeNumber: Math.floor(Math.random() * 4) + 1
+      activeNumber: Math.floor(Math.random() * 4) + 1,
+      clicked: false,
+      wrongCircle: null,
     });
   }
 
@@ -43,11 +46,13 @@ class App extends Component {
   }
 
   handleCircle = (circle) => {
+    console.log(circle, 'CIRCLE')
     if(this.state.activeNumber === circle) {
       {!this.state.clicked && this.setState({score: this.state.score + 1, clicked: true})}
     }
     else {
-      this.handleStopGame();
+      this.setState({wrongCircle: circle});
+      setTimeout(this.handleStopGame, 3000);
     }
   }
 
@@ -87,6 +92,7 @@ class App extends Component {
                 key={circle}
                 start={this.state.startGame}
                 active={circle === this.state.activeNumber} 
+                wrongCircle={circle === this.state.wrongCircle}
                 handleCircle={() => this.handleCircle(circle)} 
               />)}
             </div>
