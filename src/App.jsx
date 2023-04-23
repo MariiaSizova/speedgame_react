@@ -7,7 +7,21 @@ class App extends Component {
     startGame: true,
     score: 0,
     circles: [1, 2, 3, 4],
-    activeNumber: 0
+    activeNumber: 1
+  }
+
+  // Initialize state to default values
+  initializeState = () => {
+    this.setState({
+      startGame: true,
+      score: 0,
+      circles: [1, 2, 3, 4],
+      activeNumber: 1
+    });
+  }
+
+  componentDidMount() {
+    this.initializeState();
   }
 
   handleStartButton = (e) => {
@@ -16,47 +30,48 @@ class App extends Component {
     if(this.state.startGame) {
       this.handleStartGame();
     }
+    if(!this.state.startGame) {
+      this.handleStopGame();
+    }
   }
 
   handleStartGame = () => {
     if(this.state.startGame) {
-      setTimeout(this.randomNumber(), 1000);
+      console.log(this.state.startGame)
+      this.interval = setInterval(this.randomNumber, 4000);
     }
   }
 
   handleCircle = (circle) => {
-    console.log("active number is", this.state.activeNumber)
     if(this.state.activeNumber === circle) {
       this.setState({score: this.state.score + 1})
-      console.log(this.state.score);
       console.log("button was clicked", circle)
       console.log("active number is", this.state.activeNumber)
     }
     else {
+      console.log("button was clicked", circle)
       console.log("they are different")
     }
-    
   }
 
   getRndInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
   randomNumber = () => {
-    const nextActive = this.getRndInt(0, this.state.circles.length-1);
-    if (nextActive !== this.state.activeNumber) {
-      this.setState({activeNumber: nextActive});
-      /* this.changingButton(); */
-    }
-    else {
-      console.log("else")
-      console.log(this.state.activeNumber, "active")
-      this.randomNumber();
-    }
-    
+    let nextActive;
+    do {
+      nextActive = this.getRndInt(1, this.state.circles.length);
+      console.log(nextActive, 'nextActive')
+    } while (nextActive === this.state.activeNumber);
+    this.setState({activeNumber: nextActive}, () => {
+      console.log(this.state.activeNumber, "active");
+    });
+    console.log(nextActive, 'nextActive')
   };
 
-  changingButton = () => {
-    console.log("checking changing button function")
-    console.log(this.state.activeNumber)
+  handleStopGame = () => {
+    console.log('game over');
+    clearInterval(this.interval);
+    this.initializeState();
   }
   
   render() {
