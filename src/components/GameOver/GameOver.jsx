@@ -13,7 +13,7 @@ const GameOver = (props) => {
             You caught <span id="result">{props.score}</span> bugs
           </h3>
           <p className={classes.overlay_paragraph}>
-            <span id="overlay_text">Basic text</span>
+            <span id="overlay_text">{props.finalText}</span>
           </p>
         </div>
       </div>
