@@ -1,0 +1,86 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #1e1e1ef0;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.overlay.visible {
+  display: flex;
+}
+
+.overlay_title {
+  font-size: 2.4rem;
+  padding-bottom: 1.5rem;
+}
+
+.overlay_score {
+  font-size: 1.8rem;
+  font-weight: 150;
+  margin-top: 2.2rem;
+}
+
+.overlay_score > span {
+  color: #f32055;
+}
+
+.overlay_paragraph {
+  font-size: 1.2rem;
+  margin-top: 5rem;
+}
+
+.gameOver {
+  position: relative;
+  background-color: #323233;
+  color: white;
+  border-radius: 10px;
+  padding: 2rem;
+  min-height: 50vh;
+  width: 30rem;
+}
+
+.btn {
+  border: none;
+  box-shadow: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.5rem;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.btnClose,
+.btnClose__rules {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  background-color: #f32055b1;
+  width: 0.8rem;
+}
+
+.btnClose:hover {
+  background-color: #f32055;
+}
+.btnClose__rules:hover {
+  background-color: #f32055;
+}
+
+.btnClose,
+.btnClose__rules > span {
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-game-over {
+  background-color: #5e469aea;
+}
+
+.gameEnd {
+  display: flex;
+}
