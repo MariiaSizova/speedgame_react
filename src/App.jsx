@@ -8,9 +8,12 @@ import clickBtn from "./sounds/click.wav"
 
 class App extends Component {
   state = {
+    welcomePage: true,
     startGame: true,
     finishGame: false,
     score: 0,
+    level: "",
+    name: "",
     countRounds: 0,
     countClicks: 0,
     circles: [1, 2, 3],
@@ -27,8 +30,11 @@ class App extends Component {
   // Initialize state to default values
   initializeState = () => {
     this.setState({
+      welcomePage: true,
       startGame: true,
       score: 0,
+      level: "",
+      userName: "",
       countRounds: 0,
       countClicks: 0,
       circles: [1, 2, 3],
@@ -53,6 +59,7 @@ class App extends Component {
     if(this.state.startGame) {
       this.state.audioStart.play();
       this.handleStartGame();
+      this.handleLevelGame();
     }
     if(!this.state.startGame) {
       this.handleStopGame();
@@ -84,7 +91,6 @@ class App extends Component {
 
   randomNumber = () => {
     const missedRounds = (this.state.countRounds - this.state.countClicks);
-/*     this.handleLifes(missedRounds); */
     if(missedRounds <= 3){
       this.setState({countRounds: this.state.countRounds+1});
       this.handleLevelGame();
@@ -100,19 +106,6 @@ class App extends Component {
       this.handleStopGame();
     }
   };
-/* 
-  handleLifes = (missedRounds) => {
-    
-    if (missedRounds === 2) {
-      this.setState({color: "#2bc8401a"})
-    }
-    else if (missedRounds === 3) {
-      this.setState({color: "#febc2e1a"})
-    }
-    else if (missedRounds === 4) {
-      this.setState({color: "#fe5f581a"})
-    }
-  } */
 
   changingActiveCircle = () => {
     this.setState({clicked: false});
@@ -125,25 +118,26 @@ class App extends Component {
         circles: [...previousState.circles, 4]
       }));
     }
-    if (score < 4) {
+    console.log(this.state.level === "Hard");
+    if (this.state.level === "Easy") {
       this.setState({finalText: "Try again!"})
     }
-    else if(score >=4 && score < 8) {
+    else if(this.state.level === "Medium") {
       clearInterval(this.interval);
       this.interval = setInterval(this.randomNumber, 2500);
       this.setState({finalText: "You need to learn A LOT how to catch up with bugs!"});
     }
-    else if(score >=8 && score < 15) {
+    else if(this.state.level === "Hard") {
       clearInterval(this.interval);
       this.interval = setInterval(this.randomNumber, 2000);
       this.setState({finalText: "You need to learn a little bit how to catch up with bugs!"});
     }
-    else if(score >=15 && score < 30) {
+    else if(this.state.level === "Professional") {
       clearInterval(this.interval);
       this.interval = setInterval(this.randomNumber, 1000);
       this.setState({finalText: "Wow... A few lessons more and you will be perfect!"});
     }
-    else if(score >=30 && score < 50) {
+/*     else if(score >=30 && score < 50) {
       clearInterval(this.interval);
       this.interval = setInterval(this.randomNumber, 800);
       this.setState({finalText: "Where did you train this? Nice job!"});
@@ -152,7 +146,7 @@ class App extends Component {
       clearInterval(this.interval);
       this.interval = setInterval(this.randomNumber, 500);
       this.setState({finalText: "You are a master! Perfect!"});
-    }
+    } */
   };
 
   handleStopGame = () => {
@@ -168,13 +162,21 @@ class App extends Component {
 
   //firstPage
 
-  handleInput = (e) => {
-    e.preventDefault();
-    console.log(e.target.name);
+  handleNameChange = (e) => {
+    this.setState({name: e.target.value});
     console.log(e.target.value)
-    /* this.setState({[e.target.name]: e.target.value}); */
   }
-  
+
+  handleLevelChange = (e) => {
+    this.setState({level: e.target.value});
+    console.log(e.target.value)
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({welcomePage: false})
+  }
+
   render() {
     return (
       <div className={classes.gamePage}>
@@ -204,24 +206,24 @@ class App extends Component {
             this.state.finishGame && <GameOver score={this.state.score} gameOver={this.state.finishGame} handleCloseOverlay={this.handleCloseOverlay} finalText={this.state.finalText}/>
           }
         </div>
-        <div className={`${classes.gameCard} ${classes.inputPage}`}>
+        <div className={`${classes.gameCard} ${classes.inputPage} ${!this.state.welcomePage && classes.closeWelcome}`}>
           <h1 className={classes.welcome}>Welcome to Speed Game</h1>
-          <form onSubmit={this.handleInput}>
-              <div className={classes.nameInput}>
-                <label htmlFor="name">Nickname</label>
-                <input type="text" id="name"/>
-              </div>
-              <div className={classes.levelInput}>
-                <label htmlFor="level">Choose a level</label>
-                <select name="level" id="level" value="">
-                  <option value="" invalid="true" hidden>Choose a level...</option>
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
-                  <option value="Professional">Professional</option>
-                </select>
-              </div>
-            <input type="submit" />
+          <form>
+            <div className={classes.nameInput}>
+              <label htmlFor="username">Nickname</label>
+              <input type="text" id="username" name="username" value={this.state.name} onChange={this.handleNameChange}/>
+            </div>
+            <div className={classes.levelInput}>
+              <label htmlFor="level">Choose a level</label>
+              <select name="level" id="level" value={this.state.level} onChange={this.handleLevelChange}>
+                <option value="" invalid="true" hidden>Choose a level...</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+                <option value="Professional">Professional</option>
+              </select>
+            </div>
+            <button className={`${classes.btn}`} onClick={this.handleSubmit}>Submit</button>
           </form>
         </div>
       </div>
