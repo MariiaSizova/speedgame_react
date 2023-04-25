@@ -46,3 +46,105 @@ h2 {
   font-family: inherit;
   background-color: yellowgreen;
 }
+
+/* Lives  */
+.lives {
+  position: absolute;
+  top: 0.2rem;
+  left: 1rem;
+  padding: 0.2rem;
+  margin-top: 1rem;
+  background-color: #27272740;
+  border-radius: 5px;
+  display: flex;
+}
+
+.bug_1 {
+  color: #fe5f58;
+}
+
+.bug_2 {
+  color: #febc2e;
+}
+
+.bug_3 {
+  color: #2bc840;
+}
+
+.bug_3_lose {
+  color: #2bc8401a;
+}
+
+.bug_2_lose {
+  color: #febc2e1a;
+}
+
+.bug_1_lose {
+  color: #fe5f581a;
+}
+
+/* Welcome Page */
+.inputPage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  /* display: none; */
+}
+
+.welcome {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 3rem;
+  color: #f1f1f1;
+}
+
+form {
+  margin-top: 3rem;
+}
+
+.nameInput,
+.levelInput {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+
+label {
+  color: #f1f1f1;
+  font-size: 1.5rem;
+}
+
+input[type="text"] {
+  height: 2.5rem;
+  width: 15rem;
+  border-radius: 7px;
+  border: none;
+  padding-left: 10px;
+  font-size: 1.2rem;
+  font-family: inherit;
+}
+
+input[type="submit"] {
+  height: 3.5rem;
+  width: 12rem;
+  border: none;
+  font-size: 1.2rem;
+  text-align: center;
+  border-radius: 50px;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: yellowgreen;
+}
+
+select {
+  width: 15rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 7px;
+  padding-left: 0.8rem;
+  font-size: 1.2rem;
+  font-family: inherit;
+}
