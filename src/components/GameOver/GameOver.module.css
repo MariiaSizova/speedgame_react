@@ -48,7 +48,6 @@
   border: none;
   box-shadow: none;
   border-radius: 5px;
-  padding: 0.5rem 1.5rem;
   font-size: inherit;
   font-family: inherit;
 }
@@ -59,7 +58,9 @@
   top: 0.8rem;
   right: 0.8rem;
   background-color: #f32055b1;
-  width: 0.8rem;
+  width: 2rem;
+  height: 2rem;
+  color: white;
 }
 
 .btnClose:hover {
@@ -83,4 +84,9 @@
 
 .gameEnd {
   display: flex;
+}
+
+.closeGameOver {
+  color: white;
+  font-size: 1.5rem;
 }

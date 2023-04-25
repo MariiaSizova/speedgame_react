@@ -6,7 +6,7 @@ const GameOver = (props) => {
     <div className={`${classes.overlay} ${(props.gameOver ? classes.gameEnd : "")}`}>
         <div className={classes.gameOver}>
           <button className={`${classes.btn} ${classes.btnClose}`} onClick={props.handleCloseOverlay}>
-            <span className="material-symbols-outlined"> X </span>
+            <span className={`material-symbols-outlined ${classes.closeGameOver}`}> X </span>
           </button>
           <h2 className={classes.overlay_title}>👾 Game over 👾</h2>
           <h3 className={classes.overlay_score}>

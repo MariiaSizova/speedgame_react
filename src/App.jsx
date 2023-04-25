@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.module.css';
 import Circle from './components/Circles/Circle';
 import GameOver from './components/GameOver/GameOver';
+import GameRules from './components/GameRules/GameRules';
 import gameEnd from "./sounds/gameEnd.wav";
 import gameStart from "./sounds/gameStart.wav";
 import clickBtn from "./sounds/click.wav";
@@ -26,7 +27,8 @@ class App extends Component {
     audioEnd: new Audio(gameEnd),
     audioStart: new Audio(gameStart),
     audioClick: new Audio(clickBtn),
-    finalText: ""
+    finalText: "",
+    rules: false
   }
 
   // Initialize state to default values
@@ -183,9 +185,20 @@ class App extends Component {
     this.setState({welcomePage: false})
   }
 
+  handleReturnButton = (e) => {
+    e.preventDefault();
+    this.setState({welcomePage: !this.state.welcomePage});
+  }
+
+  handleRules = (e) => {
+    e.preventDefault();
+    this.setState({rules: !this.state.rules})
+  }
+
   render() {
     return (
       <div className={classes.gamePage}>
+        {/* Game Page */}
         <div className={classes.gameCard}>
           <h1 className={classes.gameName}>Speed Game</h1>
           <div className={classes.lives}>
@@ -212,8 +225,12 @@ class App extends Component {
           {
             this.state.finishGame && <GameOver score={this.state.score} gameOver={this.state.finishGame} handleCloseOverlay={this.handleCloseOverlay} finalText={this.state.finalText}/>
           }
+          <div className={classes.backMain}>
+            <button className={classes.backBtn}><span className={`material-symbols-outlined ${classes.back}`} onClick={this.handleReturnButton}>redo</span></button>
+          </div>
         </div>
-        <div className={`${classes.gameCard} ${classes.inputPage} ${!this.state.welcomePage && classes.closeWelcome}`}>
+        {/* Welcome Page */}
+        <div className={`${classes.gameCard} ${classes.inputPage} ${!this.state.welcomePage ? classes.closeWelcome : ""}`}>
           <h1 className={classes.welcome}>Welcome to Speed Game</h1>
           <form>
             <div className={classes.nameInput}>
@@ -231,6 +248,12 @@ class App extends Component {
               </select>
             </div>
             <button className={`${classes.btn}`} onClick={this.handleSubmit}>Submit</button>
+            <div className={classes.help}>
+              <button className={classes.helper} onClick={this.handleRules}>
+                <span className={"material-symbols-outlined"}> question_mark </span>
+              </button>
+            </div>
+            <GameRules rules={this.state.rules}/>
           </form>
         </div>
       </div>
