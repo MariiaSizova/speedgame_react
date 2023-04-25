@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import classes from './App.module.css';
 import Circle from './components/Circles/Circle';
 import GameOver from './components/GameOver/GameOver';
-import gameEnd from "./sounds/gameEnd.wav"
-import gameStart from "./sounds/gameStart.wav"
-import clickBtn from "./sounds/click.wav"
+import gameEnd from "./sounds/gameEnd.wav";
+import gameStart from "./sounds/gameStart.wav";
+import clickBtn from "./sounds/click.wav";
 
 class App extends Component {
   state = {
@@ -15,12 +15,14 @@ class App extends Component {
     level: "",
     name: "",
     countRounds: 0,
+    timer: 2500,
     countClicks: 0,
     circles: [1, 2, 3],
-    activeNumber: Math.floor(Math.random() * 4) + 1,
+    activeNumber: -1,
     clicked: false,
     wrongCircle: null,
     wrongCircleCount: 0,
+    missedRounds: 0,
     audioEnd: new Audio(gameEnd),
     audioStart: new Audio(gameStart),
     audioClick: new Audio(clickBtn),
@@ -30,21 +32,15 @@ class App extends Component {
   // Initialize state to default values
   initializeState = () => {
     this.setState({
-      welcomePage: true,
       startGame: true,
       score: 0,
-      level: "",
-      userName: "",
       countRounds: 0,
       countClicks: 0,
       circles: [1, 2, 3],
-      activeNumber: Math.floor(Math.random() * 4) + 1,
+      activeNumber: -1,
       clicked: false,
       wrongCircle: null,
       wrongCircleCount: 0,
-      audioEnd: new Audio(gameEnd),
-      audioStart: new Audio(gameStart),
-      audioClick: new Audio(clickBtn),
       finalText: "",
     });
   }
@@ -59,7 +55,6 @@ class App extends Component {
     if(this.state.startGame) {
       this.state.audioStart.play();
       this.handleStartGame();
-      this.handleLevelGame();
     }
     if(!this.state.startGame) {
       this.handleStopGame();
@@ -68,14 +63,14 @@ class App extends Component {
 
   handleStartGame = () => {
     if(this.state.startGame) {
-      this.interval = setInterval(this.randomNumber, 3000);
+      this.interval = setInterval(this.randomNumber, this.state.timer);
+      this.handleLevelGame();
     }
   }
 
   handleCircle = (circle) => {
     this.setState({countClicks: this.state.countClicks + 1});
     this.state.audioClick.play();
-    
     if(this.state.activeNumber === circle) {
       !this.state.clicked && this.setState({score: this.state.score + 1, clicked: true});
     } else if((this.state.activeNumber !== circle)) {
@@ -91,9 +86,9 @@ class App extends Component {
 
   randomNumber = () => {
     const missedRounds = (this.state.countRounds - this.state.countClicks);
+    this.setState({missedRounds: missedRounds});
     if(missedRounds <= 3){
       this.setState({countRounds: this.state.countRounds+1});
-      this.handleLevelGame();
       this.setState({wrongCircle: null}); 
       let nextActive;
       do {
@@ -112,46 +107,59 @@ class App extends Component {
   }
 
   handleLevelGame = () => {
-    let score = this.state.score;
-    if(score === 10) {
+    if(this.state.level === "Easy") {
+      clearInterval(this.interval);
+      this.interval = setInterval(this.randomNumber, 2500);
+    }
+    else if(this.state.level === "Medium") {
       this.setState(previousState => ({
         circles: [...previousState.circles, 4]
       }));
-    }
-    console.log(this.state.level === "Hard");
-    if (this.state.level === "Easy") {
-      this.setState({finalText: "Try again!"})
-    }
-    else if(this.state.level === "Medium") {
       clearInterval(this.interval);
-      this.interval = setInterval(this.randomNumber, 2500);
-      this.setState({finalText: "You need to learn A LOT how to catch up with bugs!"});
+      this.interval = setInterval(this.randomNumber, 1800);
     }
     else if(this.state.level === "Hard") {
+      this.setState(previousState => ({
+        circles: [...previousState.circles, 4]
+      }));
       clearInterval(this.interval);
-      this.interval = setInterval(this.randomNumber, 2000);
-      this.setState({finalText: "You need to learn a little bit how to catch up with bugs!"});
+      this.interval = setInterval(this.randomNumber, 1100);
     }
     else if(this.state.level === "Professional") {
-      clearInterval(this.interval);
-      this.interval = setInterval(this.randomNumber, 1000);
-      this.setState({finalText: "Wow... A few lessons more and you will be perfect!"});
-    }
-/*     else if(score >=30 && score < 50) {
+      this.setState(previousState => ({
+        circles: [...previousState.circles, 4, 5]
+      }));
       clearInterval(this.interval);
       this.interval = setInterval(this.randomNumber, 800);
-      this.setState({finalText: "Where did you train this? Nice job!"});
+    }
+  }
+
+  handleScoreGame = () => {
+    let score = this.state.score;
+    if (score < 4) {
+      this.setState({finalText: "Try again!"})
+    }
+    else if(score >=4 && score < 8) {
+      this.setState({finalText: "You need to learn A LOT how to catch up with bugs!"})
+    }
+    else if(score >=8 && score < 15) {
+      this.setState({finalText: "You need to learn a little bit how to catch up with bugs!"})
+    }
+    else if(score >=15 && score < 30) {
+      this.setState({finalText: "Wow... A few lessons more and you will be perfect!"})
+    }
+    else if(score >=30 && score < 50) {
+      this.setState({finalText: "Where did you train this? Nice job!"})
     }
     else if(score >=50) {
-      clearInterval(this.interval);
-      this.interval = setInterval(this.randomNumber, 500);
-      this.setState({finalText: "You are a master! Perfect!"});
-    } */
+      this.setState({finalText: "You are a master! Perfect!"})
+    }
   };
 
   handleStopGame = () => {
     this.setState({finishGame: true});
     this.state.audioEnd.play();
+    this.handleScoreGame();
     clearInterval(this.interval);
   }
 
@@ -164,12 +172,10 @@ class App extends Component {
 
   handleNameChange = (e) => {
     this.setState({name: e.target.value});
-    console.log(e.target.value)
   }
 
   handleLevelChange = (e) => {
     this.setState({level: e.target.value});
-    console.log(e.target.value)
   }
 
   handleSubmit = (e) => {
@@ -183,16 +189,17 @@ class App extends Component {
         <div className={classes.gameCard}>
           <h1 className={classes.gameName}>Speed Game</h1>
           <div className={classes.lives}>
-            <span className={`material-symbols-outlined ${classes.bug_1} ${this.state.wrongCircleCount>=3 ? classes.bug_1_lose  : ""}`}> bug_report </span>
-            <span className={`material-symbols-outlined ${classes.bug_2} ${this.state.wrongCircleCount>=2 ? classes.bug_2_lose  : ""}`}> bug_report </span>
-            <span className={`material-symbols-outlined ${classes.bug_3} ${this.state.wrongCircleCount>=1 && classes.bug_3_lose}`}> bug_report </span>
+            <span className={`material-symbols-outlined ${classes.bug_1} ${(this.state.wrongCircleCount + this.state.missedRounds)>=3 ? classes.bug_1_lose  : ""}`}> bug_report </span>
+            <span className={`material-symbols-outlined ${classes.bug_2} ${(this.state.wrongCircleCount + this.state.missedRounds)>=2 ? classes.bug_2_lose  : ""}`}> bug_report </span>
+            <span className={`material-symbols-outlined ${classes.bug_3} ${(this.state.wrongCircleCount + this.state.missedRounds)>=1 && classes.bug_3_lose}`}> bug_report </span>
           </div>
           <h2>Score {this.state.score}</h2>
           <div className={classes.buttonsCircle}>
             {this.state.circles.map((circle) => <Circle 
               key={circle}
               start={this.state.startGame}
-              active={circle === this.state.activeNumber} 
+              numberCircles = {this.state.circles.length}
+              active={circle === this.state.activeNumber}
               wrongCircle={circle === this.state.wrongCircle}
               handleCircle={() => this.handleCircle(circle)} 
               clicked={this.state.clicked}
