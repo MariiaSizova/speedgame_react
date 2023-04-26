@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import classes from './App.module.css';
 import Circle from './components/Circles/Circle';
 import GameOver from './components/GameOver/GameOver';
-import GameRules from './components/GameRules/GameRules';
+import WelcomeGame from './components/WelcomeGame/WelcomeGame';
+/* import GameRules from './components/GameRules/GameRules'; */
 import gameEnd from "./sounds/gameEnd.wav";
 import gameStart from "./sounds/gameStart.wav";
 import clickBtn from "./sounds/click.wav";
@@ -104,6 +105,21 @@ class App extends Component {
       this.handleStopGame();
     }
   };
+
+/*   handleSpeedByScore = () => {
+    if (this.state.score === 5) {
+      clearInterval(this.interval);
+      this.interval = setInterval(this.randomNumber, this.state.timer - 100);
+    }
+    else if (this.state.score === 10) {
+      clearInterval(this.interval);
+      this.interval = setInterval(this.randomNumber, this.state.timer - 200);
+    }
+    else if (this.state.score === 20) {
+      clearInterval(this.interval);
+      this.interval = setInterval(this.randomNumber, this.state.timer - 300);
+    }
+  } */ 
 
   changingActiveCircle = () => {
     this.setState({clicked: false});
@@ -244,32 +260,15 @@ class App extends Component {
           </div>
         </div>
         {/* Welcome Page */}
-        <div className={`${classes.gameCard} ${classes.inputPage} ${!this.state.welcomePage ? classes.closeWelcome : ""}`}>
-          <h1 className={classes.welcome}>Welcome to Speed Game</h1>
-          <form>
-            <div className={classes.nameInput}>
-              <label htmlFor="username">Nickname</label>
-              <input type="text" id="username" name="username" value={this.state.name} onChange={this.handleNameChange}/>
-            </div>
-            <div className={classes.levelInput}>
-              <label htmlFor="level">Choose a level</label>
-              <select name="level" id="level" value={this.state.level} onChange={this.handleLevelChange}>
-                <option value="" invalid="true" hidden>Choose a level...</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-                <option value="Professional">Professional</option>
-              </select>
-            </div>
-            <button className={`${classes.btn}`} onClick={this.handleSubmit}>Submit</button>
-            <div className={classes.help}>
-              <button className={classes.helper} onClick={this.handleRules}>
-                <span className={`material-symbols-outlined ${classes.rulesInfo}`}> question_mark </span>
-              </button>
-            </div>
-            <GameRules rules={this.state.rules}/>
-          </form>
-        </div>
+        <WelcomeGame 
+          welcomePage={this.state.welcomePage} 
+          name={this.state.name} 
+          handleNameChange={this.handleNameChange} 
+          level={this.state.level} 
+          handleLevelChange={this.handleLevelChange} 
+          handleSubmit={this.handleSubmit} 
+          handleRules={this.handleRules} 
+          rules={this.state.rules}/>
       </div>
 
     );
