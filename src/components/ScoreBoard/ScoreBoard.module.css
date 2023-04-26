@@ -1,11 +1,7 @@
-table {
+.table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 20px;
-}
-
-.visibleScore {
-  display: flex;
 }
 
 th,
@@ -13,17 +9,13 @@ td {
   border: 1.5px solid #cfc2c2;
   padding: 8px;
   text-align: left;
-  color: black;
+  color: white;
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #f2f2f234;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #ddd;
+  background-color: #f2f2f234;
 }
