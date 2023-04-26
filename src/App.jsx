@@ -28,7 +28,8 @@ class App extends Component {
     audioStart: new Audio(gameStart),
     audioClick: new Audio(clickBtn),
     finalText: "",
-    rules: false
+    rules: false,
+    scores: []
   }
 
   // Initialize state to default values
@@ -162,6 +163,7 @@ class App extends Component {
     this.setState({finishGame: true});
     this.state.audioEnd.play();
     this.handleScoreGame();
+    this.handleScoreTable();
     clearInterval(this.interval);
   }
 
@@ -193,6 +195,18 @@ class App extends Component {
   handleRules = (e) => {
     e.preventDefault();
     this.setState({rules: !this.state.rules})
+  }
+
+  handleScoreTable = () => {
+    let score = this.state.score;
+    let name = this.state.name;
+    let level = this.state.level;
+    let newScore = {name, level, score};
+    let scores = this.state.scores;
+    scores.push(newScore);
+    this.setState({scores});
+    localStorage.setItem('scores', JSON.stringify(scores));
+    console.log(this.state.scores)
   }
 
   render() {
@@ -250,7 +264,7 @@ class App extends Component {
             <button className={`${classes.btn}`} onClick={this.handleSubmit}>Submit</button>
             <div className={classes.help}>
               <button className={classes.helper} onClick={this.handleRules}>
-                <span className={"material-symbols-outlined"}> question_mark </span>
+                <span className={`material-symbols-outlined ${classes.rulesInfo}`}> question_mark </span>
               </button>
             </div>
             <GameRules rules={this.state.rules}/>

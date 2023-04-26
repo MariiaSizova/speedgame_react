@@ -181,11 +181,11 @@ select {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
-  background-color: #27272752;
+  background-color: #323233;
 }
 
-.helper > span {
-  color: #f1f1f1;
+.rulesInfo {
+  color: white;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.8rem;
 }
