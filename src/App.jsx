@@ -76,18 +76,11 @@ class App extends Component {
     const { countRounds, countClicks, wrongCircleCount } = this.state;
     const missedRounds = countRounds - countClicks;
     const livesMissed = wrongCircleCount + missedRounds;
-  
-/*     this.setState({ missedRounds }, () => console.log("missedRounds", this.state.missedRounds));
-    this.setState({ livesMissed }, () => console.log("livesMissed", this.state.livesMissed, "missedRounds", this.state.missedRounds)); */
-    this.setState({ missedRounds, livesMissed})
+    this.setState({ missedRounds, livesMissed});
     this.setState({ countRounds: countRounds + 1 });
     this.setState({ wrongCircle: null }); 
   
-    if (livesMissed !== 3) {
-      this.randomNumber();
-    } else {
-      this.handleStopGame();
-    }
+    livesMissed !== 3 ? this.randomNumber() : this.handleStopGame();
   }
 
   handleCircle = (circle) => {
@@ -241,15 +234,15 @@ class App extends Component {
     console.log(existingIndex)
     if (existingIndex === -1) {
       scores.push(newScore);
-      console.log(scores)
+      console.log(scores, "1")
     } else {
       if (newScore.score > scores[existingIndex].score) {
         scores[existingIndex] = newScore;
       }
     }
     this.setState({ scores });
-    console.log(scores)
-    console.log(this.state.scores)
+    console.log(scores, "2")
+    console.log(this.state.scores, "3")
   }
 
   render() {
@@ -264,6 +257,7 @@ class App extends Component {
             <span className={`material-symbols-outlined ${classes.bug_3} ${(this.state.livesMissed)>=1 ? classes.bug_3_lose : ""}`}> bug_report </span>
           </div>
           <h2>Score {this.state.score}</h2>
+          {/* Circles */}
           <div className={classes.buttonsCircle}>
             {this.state.circles.map((circle) => 
             <Circle 
@@ -282,7 +276,7 @@ class App extends Component {
             : <button className={classes.button_start} onClick={this.handleStartButton}>End</button>
           }
           {
-            this.state.finishGame && <GameOver score={this.state.score} gameOver={this.state.finishGame} handleCloseOverlay={this.handleCloseOverlay} finalText={this.state.finalText}/>
+            this.state.finishGame && <GameOver score={this.state.score} gameOver={this.state.finishGame} handleCloseOverlay={this.handleCloseOverlay} finalText={this.state.finalText} scores={this.state.scores}/>
           }
           <div className={classes.backMain}>
             <button className={classes.backBtn}><span className={`material-symbols-outlined ${classes.back}`} onClick={this.handleReturnButton}>redo</span></button>
@@ -299,7 +293,6 @@ class App extends Component {
           handleRules={this.handleRules} 
           rules={this.state.rules}/>
       </div>
-
     );
   }
 }
