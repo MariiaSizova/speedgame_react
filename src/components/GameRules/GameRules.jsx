@@ -5,7 +5,7 @@ const GameRules = (props) => {
   return (
     <div className={`${classes.overlay_rules} ${props.rules && classes.visibleRules}`}>
       <div className={classes.rules}>
-        <button className={`${classes.btn}`}>
+        <button className={`${classes.btn}`} onClick={props.handleRules}>
           <span className={`material-symbols-outlined ${classes.closeRules}`}> close </span>
         </button>
         <h2 className={classes.overlayRules_title}>How to play?</h2>

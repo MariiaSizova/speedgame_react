@@ -22,13 +22,13 @@ const WelcomeGame = (props) => {
           </select>
         </div>
         <button className={`${classes.btn}`} type="submit">Submit</button>
-        <div className={classes.help}>
-          <button className={classes.helper} onClick={props.handleRules}>
-            <span className={`material-symbols-outlined ${classes.rulesInfo}`}> question_mark </span>
-          </button>
-        </div>
-        <GameRules rules={props.rules}/>
       </form>
+      <div className={classes.help}>
+        <button className={classes.helper} onClick={props.handleRules}>
+          <span className={`material-symbols-outlined ${classes.rulesInfo}`}> question_mark </span>
+        </button>
+      </div>
+      <GameRules rules={props.rules} handleRules={props.handleRules}/>
     </div>
   );
 };
