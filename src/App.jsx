@@ -116,21 +116,15 @@ class App extends Component {
 
   handleSpeedByScore = () => {
     if (this.state.score === 5) {
-      this.setState({ timer: this.state.timer * 0.95 }, () =>
-        console.log(this.state.timer)
-      );
+      this.setState({ timer: this.state.timer * 0.95 });
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, this.state.timer);
     } else if (this.state.score === 10) {
-      this.setState({ timer: this.state.timer * 0.95 }, () =>
-        console.log(this.state.timer)
-      );
+      this.setState({ timer: this.state.timer * 0.95 });
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, this.state.timer);
     } else if (this.state.score === 20) {
-      this.setState({ timer: this.state.timer * 0.95 }, () =>
-        console.log(this.state.timer)
-      );
+      this.setState({ timer: this.state.timer * 0.95 });
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, this.state.timer);
     }
@@ -146,19 +140,21 @@ class App extends Component {
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, 2500);
     } else if (this.state.level === "Medium") {
-      this.setState({ timer: 1800 }, () => console.log(this.state.timer));
+      this.setState({ timer: 1800 });
       this.setState((previousState) => ({
         circles: [...previousState.circles, 4],
       }));
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, 1800);
     } else if (this.state.level === "Hard") {
+      this.setState({ timer: 1100 });
       this.setState((previousState) => ({
         circles: [...previousState.circles, 4],
       }));
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, 1100);
     } else if (this.state.level === "Professional") {
+      this.setState({ timer: 800 });
       this.setState((previousState) => ({
         circles: [...previousState.circles, 4, 5],
       }));
@@ -237,18 +233,14 @@ class App extends Component {
     const existingIndex = scores.findIndex(
       (s) => s.name === name && s.level === level
     );
-    console.log(existingIndex);
     if (existingIndex === -1) {
       scores.push(newScore);
-      console.log(scores, "1");
     } else {
       if (newScore.score > scores[existingIndex].score) {
         scores[existingIndex] = newScore;
       }
     }
     this.setState({ scores });
-    console.log(scores, "2");
-    console.log(this.state.scores, "3");
   };
 
   render() {
