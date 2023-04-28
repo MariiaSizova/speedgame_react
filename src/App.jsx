@@ -45,6 +45,7 @@ class App extends Component {
       clicked: false,
       wrongCircle: null,
       wrongCircleCount: 0,
+      livesMissed: 0,
       finalText: "",
     });
   };
@@ -115,19 +116,19 @@ class App extends Component {
 
   handleSpeedByScore = () => {
     if (this.state.score === 5) {
-      this.setState({ timer: this.state.timer - 100 }, () =>
+      this.setState({ timer: this.state.timer * 0.95 }, () =>
         console.log(this.state.timer)
       );
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, this.state.timer);
     } else if (this.state.score === 10) {
-      this.setState({ timer: this.state.timer - 200 }, () =>
+      this.setState({ timer: this.state.timer * 0.95 }, () =>
         console.log(this.state.timer)
       );
       clearInterval(this.interval);
       this.interval = setInterval(this.handleGame, this.state.timer);
     } else if (this.state.score === 20) {
-      this.setState({ timer: this.state.timer - 300 }, () =>
+      this.setState({ timer: this.state.timer * 0.95 }, () =>
         console.log(this.state.timer)
       );
       clearInterval(this.interval);
@@ -325,7 +326,9 @@ class App extends Component {
           <div className={classes.backMain}>
             <button className={classes.backBtn}>
               <span
-                className={`material-symbols-outlined ${classes.back}`}
+                className={`material-symbols-outlined ${classes.back} ${
+                  !this.state.startGame ? classes.backDisabled : ""
+                }`}
                 onClick={this.handleReturnButton}
               >
                 redo
