@@ -2,21 +2,21 @@
 
 Welcome to the Debuger game! Here you can become a true debugger 🪲🪲🪲
 
-![Debuger](images/debug.png)
+In the new version of the game, you can enter your name and select a difficulty level to track your progress in debugging skills.
 
----
+![Debuger](./src/images/welcome.png)
 
-## How to play?
+Don't forget to read the rules on the welcome page before starting the game!
 
-1. The game starts with all the lights off.
-2. The lights turn on one at a time in random order, accelerating all the time.
-3. Each light illumination is acknowledged by pressing the light button that comes on.
-4. If you press the correct button, the game continues with the next light button. Your score will increase.
-5. If you press the wrong button, the game ends.
-6. You have an opportunity to skip up to 3 light buttons by not pressing anything. Skipping a button will not affect the game outcome.
-7. The game continues until you make three mistakes or skip three lights.
-8. Your score is based on how many buttons you correctly press before the game ends. The higher your score, the better you did.
-9. The game can be restarted at any time by pressing a reset button.
+![Debuger](./src/images/rules.png)
+
+The game page looks the same, but the number of circles and speed have been changed. Give it a try and see for yourself!
+
+![Debuger](./src/images/main.png)
+
+When the game is over, you will see your result, the game board with your progress, and some information about your performance.
+
+![Debuger](./src/images/gameOver.png)
 
 ---
 
