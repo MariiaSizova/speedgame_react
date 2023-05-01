@@ -22,7 +22,7 @@ When the game is over, you will see your result, the game board with your progre
 
 ### **Check it out!**
 
-[Speedgame]()
+[Speedgame](https://public.bc.fi/s2300111/speedgame2/)
 
 ### Link to my GitHub
 
